@@ -24,7 +24,7 @@ Notifications.setNotificationHandler({
   }),
 });
 
-const DEFAULT_SERVER_URL = 'https://g.sbaspava.com'; // Test & Canlı Domain Adresi
+const DEFAULT_SERVER_URL = 'https://g.sbaspava.com'; // Canlı Domain
 
 export default function App() {
   const [serverUrl, setServerUrl] = useState(DEFAULT_SERVER_URL);
@@ -77,7 +77,6 @@ export default function App() {
   const handleSaveUrl = () => {
     let formatted = inputUrl.trim();
     if (!formatted.startsWith('http://') && !formatted.startsWith('https://')) {
-      // Eğer domain uzantısı içeriyorsa (örn: g.sbaspava.com) varsayılan olarak https:// yap
       if (formatted.includes('.') && !formatted.includes(':3000') && !formatted.startsWith('192.168.')) {
         formatted = `https://${formatted}`;
       } else {
@@ -92,9 +91,11 @@ export default function App() {
     }
   };
 
+  // Mobil uygulamaya özel şifresiz direkt canlı sipariş takip erişimi
   const getAdminUrl = () => {
     const cleanUrl = serverUrl.replace(/\/$/, '');
-    return cleanUrl.endsWith('/admin') ? cleanUrl : `${cleanUrl}/admin`;
+    const baseUrl = cleanUrl.endsWith('/admin') ? cleanUrl : `${cleanUrl}/admin`;
+    return `${baseUrl}?secret=gurme123&mobile=1`;
   };
 
   return (
@@ -145,7 +146,7 @@ export default function App() {
             javaScriptEnabled={true}
             originWhitelist={['*']}
             mixedContentMode="always"
-            onError={() => setHasError(false)} // Hata ekranı yerine direkt yüklemeyi dene
+            onError={() => setHasError(false)}
             renderLoading={() => (
               <View style={styles.loadingContainer}>
                 <ActivityIndicator size="large" color="#d97706" />
@@ -363,7 +364,7 @@ const styles = StyleSheet.create({
   },
   modalButtons: {
     flexDirection: 'row',
-    justifyContent: 'flex-end',
+    justify.content: 'flex-end',
     gap: 10,
   },
   cancelBtn: {
