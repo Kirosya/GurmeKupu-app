@@ -20,7 +20,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#0c0a09"
       },
-      "package": "com.gurmekupu.app",
+      "package": "com.gurmekupu.admin",
       "googleServicesFile": "./google-services.json",
       "usesCleartextTraffic": true,
       "permissions": [
