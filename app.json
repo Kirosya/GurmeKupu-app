@@ -21,10 +21,12 @@
         "backgroundColor": "#0c0a09"
       },
       "package": "com.gurmekupu.admin",
+      "usesCleartextTraffic": true,
       "permissions": [
         "RECEIVE_BOOT_COMPLETED",
         "VIBRATE",
-        "WAKE_LOCK"
+        "WAKE_LOCK",
+        "INTERNET"
       ]
     },
     "plugins": [
