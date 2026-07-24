@@ -1,0 +1,41 @@
+{
+  "expo": {
+    "name": "Gurme Küpü Yönetici",
+    "slug": "gurmekupu-admin",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "dark",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#0c0a09"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.gurmekupu.admin"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#0c0a09"
+      },
+      "package": "com.gurmekupu.admin",
+      "permissions": [
+        "RECEIVE_BOOT_COMPLETED",
+        "VIBRATE",
+        "WAKE_LOCK"
+      ]
+    },
+    "plugins": [
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/icon.png",
+          "color": "#d97706",
+          "sounds": ["default"]
+        }
+      ]
+    ]
+  }
+}
