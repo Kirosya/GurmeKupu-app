@@ -1,9 +1,12 @@
-name: Build Android APK
+name: Build Android APK & Release
 
 on:
   push:
     branches: [ main, master ]
   workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
   build:
@@ -40,3 +43,18 @@ jobs:
         with:
           name: GurmeKupu-Admin-App.apk
           path: android/app/build/outputs/apk/release/app-release.apk
+
+      - name: 🏷 Create Release & Upload APK
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v1.0.${{ github.run_number }}
+          name: Gurme Küpü Admin App v1.0.${{ github.run_number }}
+          body: |
+            🎉 **Gurme Küpü Yönetici Mobil Uygulaması APK Sürümü**
+            
+            - Anlık Sesli ve Görsel Sipariş Bildirimleri
+            - Canlı Sipariş Takip Ekranı & Teslimat Yönetimi
+            - Otomatik Derleme
+          files: android/app/build/outputs/apk/release/app-release.apk
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
