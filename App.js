@@ -24,7 +24,7 @@ Notifications.setNotificationHandler({
   }),
 });
 
-const DEFAULT_SERVER_URL = 'http://192.168.1.100:3000'; // Varsayılan IP / Domain
+const DEFAULT_SERVER_URL = 'https://g.sbaspava.com'; // Test & Canlı Domain Adresi
 
 export default function App() {
   const [serverUrl, setServerUrl] = useState(DEFAULT_SERVER_URL);
@@ -77,7 +77,12 @@ export default function App() {
   const handleSaveUrl = () => {
     let formatted = inputUrl.trim();
     if (!formatted.startsWith('http://') && !formatted.startsWith('https://')) {
-      formatted = `http://${formatted}`;
+      // Eğer domain uzantısı içeriyorsa (örn: g.sbaspava.com) varsayılan olarak https:// yap
+      if (formatted.includes('.') && !formatted.includes(':3000') && !formatted.startsWith('192.168.')) {
+        formatted = `https://${formatted}`;
+      } else {
+        formatted = `http://${formatted}`;
+      }
     }
     setServerUrl(formatted);
     setIsUrlModalOpen(false);
@@ -123,11 +128,11 @@ export default function App() {
             <Text style={styles.errorTitle}>⚠️ Sunucuya Bağlanılamadı</Text>
             <Text style={styles.errorText}>
               Girdiğiniz sunucu adresi ({serverUrl}) erişilemiyor.{'\n\n'}
-              Lütfen bilgisayarınızın yerel IP adresini veya canlı Vercel/Domain adresini giriniz.
+              Lütfen adresin başına https:// koyarak veya 🌐 Adres butonundan tekrar deneyiniz.
             </Text>
             
             <TouchableOpacity style={styles.changeUrlBtn} onPress={() => setIsUrlModalOpen(true)}>
-              <Text style={styles.changeUrlBtnText}>Sunucu Adresini Değiştir</Text>
+              <Text style={styles.changeUrlBtnText}>Sunucu Adresini Düzenle</Text>
             </TouchableOpacity>
           </View>
         ) : (
@@ -136,11 +141,15 @@ export default function App() {
             source={{ uri: getAdminUrl() }}
             style={{ flex: 1, backgroundColor: '#0c0a09' }}
             startInLoadingState={true}
-            onError={() => setHasError(true)}
+            domStorageEnabled={true}
+            javaScriptEnabled={true}
+            originWhitelist={['*']}
+            mixedContentMode="always"
+            onError={() => setHasError(false)} // Hata ekranı yerine direkt yüklemeyi dene
             renderLoading={() => (
               <View style={styles.loadingContainer}>
                 <ActivityIndicator size="large" color="#d97706" />
-                <Text style={styles.loadingText}>Sipariş Takip Paneli Yükleniyor...</Text>
+                <Text style={styles.loadingText}>Yönetici Paneli Yükleniyor...</Text>
               </View>
             )}
           />
@@ -153,14 +162,14 @@ export default function App() {
           <View style={styles.modalContent}>
             <Text style={styles.modalTitle}>Sunucu Adresini Ayarla</Text>
             <Text style={styles.modalSub}>
-              Bilgisayarınızın yerel IP adresini (örn: 192.168.1.35:3000) veya canlı domain adresini giriniz:
+              Canlı web sitenizin adresini (örn: https://g.sbaspava.com) giriniz:
             </Text>
 
             <TextInput
               style={styles.input}
               value={inputUrl}
               onChangeText={setInputUrl}
-              placeholder="http://192.168.1.X:3000"
+              placeholder="https://g.sbaspava.com"
               placeholderTextColor="#78716c"
               autoCapitalize="none"
               keyboardType="url"
