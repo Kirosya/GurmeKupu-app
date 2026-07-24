@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "551483594708",
+    "project_id": "gurme-kupu",
+    "storage_bucket": "gurme-kupu.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:551483594708:android:5bc6bb78f33593ddae6841",
+        "android_client_info": {
+          "package_name": "com.gurmekupu.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDHKXSpBB7USV3ho3NtYOod9haEMrmkLcc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
