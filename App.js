@@ -364,7 +364,7 @@ const styles = StyleSheet.create({
   },
   modalButtons: {
     flexDirection: 'row',
-    justify.content: 'flex-end',
+    justifyContent: 'flex-end',
     gap: 10,
   },
   cancelBtn: {
