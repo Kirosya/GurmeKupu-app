@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity, RefreshControl, ActivityIndicator, Alert } from 'react-native';
 import { fetchOrders, updateOrderStatus } from '../services/api';
-import { ShoppingBag, CheckCircle, Clock } from 'lucide-react-native';
+import { ShoppingBag, CheckCircle, Clock, MapPin, Phone, User,  } from 'lucide-react-native';
 
 export default function OrdersScreen() {
   const [orders, setOrders] = useState([]);
@@ -66,9 +66,9 @@ export default function OrdersScreen() {
           </View>
         </View>
 
-        <Text style={styles.customerName}>{item.customerName}</Text>
-        <Text style={styles.customerPhone}>{item.customerPhone}</Text>
-        <Text style={styles.customerAddress}>{item.customerAddress}</Text>
+        <Text style={styles.customerName}><User size={12} color="#b45309" /> {item.customerName}</Text>
+        <Text style={styles.customerPhone}><Phone size={12} color="#b45309" /> {item.customerPhone}</Text>
+        <Text style={styles.customerAddress}><MapPin size={12} color="#b45309" /> {item.customerAddress}</Text>
 
         {item.orderNote ? (
           <View style={styles.noteBox}>
