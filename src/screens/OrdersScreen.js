@@ -10,6 +10,7 @@ export default function OrdersScreen() {
   const [refreshing, setRefreshing] = useState(false);
   const [updatingId, setUpdatingId] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
+  const [showPastOrders, setShowPastOrders] = useState(false);
 
   const loadData = useCallback(async (isRefresh = false) => {
     if (isRefresh) setRefreshing(true);
@@ -148,6 +149,10 @@ export default function OrdersScreen() {
       return new Date(b.createdAt) - new Date(a.createdAt);
     });
 
+  const pendingOrders = sortedOrders.filter(o => o.status === 'PENDING');
+  const deliveredOrders = sortedOrders.filter(o => o.status === 'DELIVERED');
+  const displayOrders = showPastOrders ? sortedOrders : pendingOrders;
+
   return (
     <View style={styles.container}>
       <View style={styles.searchContainer}>
@@ -160,7 +165,7 @@ export default function OrdersScreen() {
         />
       </View>
       <FlatList
-        data={sortedOrders}
+        data={displayOrders}
         keyExtractor={item => item.id}
         renderItem={renderItem}
         contentContainerStyle={styles.listContent}
@@ -170,6 +175,18 @@ export default function OrdersScreen() {
             <ShoppingBag size={48} color="#44403c" />
             <Text style={styles.emptyText}>Henüz sipariş yok.</Text>
           </View>
+        }
+        ListFooterComponent={
+          deliveredOrders.length > 0 ? (
+            <TouchableOpacity 
+              style={styles.togglePastBtn} 
+              onPress={() => setShowPastOrders(!showPastOrders)}
+            >
+              <Text style={styles.togglePastText}>
+                {showPastOrders ? 'Geçmiş Siparişleri Gizle' : `Geçmiş Siparişleri Göster (${deliveredOrders.length})`}
+              </Text>
+            </TouchableOpacity>
+          ) : null
         }
       />
     </View>
@@ -215,4 +232,6 @@ const styles = StyleSheet.create({
   actionBtnText: { color: '#0c0a09', fontSize: 13, fontWeight: 'bold' },
   emptyBox: { alignItems: 'center', marginTop: 100, gap: 12 },
   emptyText: { color: '#78716c', fontSize: 14 },
+  togglePastBtn: { backgroundColor: '#1c1917', padding: 16, borderRadius: 12, alignItems: 'center', marginTop: 8, borderWidth: 1, borderColor: '#292524' },
+  togglePastText: { color: '#a8a29e', fontSize: 13, fontWeight: 'bold' },
 });
