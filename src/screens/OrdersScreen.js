@@ -26,7 +26,7 @@ export default function OrdersScreen() {
 
   useEffect(() => {
     loadData();
-    const interval = setInterval(() => loadData(false), 5000);
+    const interval = setInterval(() => loadData(false), 15000);
     return () => clearInterval(interval);
   }, [loadData]);
 
