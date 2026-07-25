@@ -196,7 +196,7 @@ export default function OrdersScreen() {
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#0c0a09' },
   centered: { flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#0c0a09' },
-  searchContainer: { paddingHorizontal: 16, paddingTop: 16, paddingBottom: 4 },
+  searchContainer: { paddingHorizontal: 8, paddingTop: 8, paddingBottom: 4 },
   searchInput: { backgroundColor: '#1c1917', color: '#f5f5f4', paddingHorizontal: 16, paddingVertical: 12, borderRadius: 12, borderWidth: 1, borderColor: '#292524', fontSize: 14 },
   listContent: { padding: 16, gap: 16, paddingBottom: 40 },
   card: {
