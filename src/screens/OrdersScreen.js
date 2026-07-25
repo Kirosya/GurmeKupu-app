@@ -80,7 +80,7 @@ export default function OrdersScreen() {
           {item.items.map((prod, idx) => (
             <View key={idx} style={styles.itemRow}>
               <Text style={styles.itemName}>• {prod.productName}</Text>
-              <Text style={styles.itemQuantity}>{prod.quantity} {prod.unit}</Text>
+              <Text style={styles.itemQuantity}>{prod.quantityValue || prod.quantity} {prod.unitType || prod.unit || 'kg'}</Text>
             </View>
           ))}
         </View>
