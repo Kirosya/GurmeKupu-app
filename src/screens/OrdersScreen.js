@@ -136,6 +136,9 @@ export default function OrdersScreen() {
       return (
         order.id.toLowerCase().includes(q) ||
         order.customerName.toLowerCase().includes(q) ||
+        (order.customerPhone && order.customerPhone.toLowerCase().includes(q)) ||
+        (order.customerAddress && order.customerAddress.toLowerCase().includes(q)) ||
+        (order.orderNote && order.orderNote.toLowerCase().includes(q)) ||
         order.items.some(item => item.productName.toLowerCase().includes(q))
       );
     })
@@ -150,7 +153,7 @@ export default function OrdersScreen() {
       <View style={styles.searchContainer}>
         <TextInput
           style={styles.searchInput}
-          placeholder="Sipariş No, Müşteri veya Ürün Ara..."
+          placeholder="Sipariş No, İsim, Tel, Adres, Not, Ürün..."
           placeholderTextColor="#78716c"
           value={searchQuery}
           onChangeText={setSearchQuery}
