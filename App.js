@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity, Platform, Alert, ActivityIndicator, Linking } from 'react-native';
+import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity, Platform, Alert, ActivityIndicator } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Notifications from 'expo-notifications';
@@ -9,6 +9,7 @@ import { ShoppingBag, Utensils, LogOut, Plus } from 'lucide-react-native';
 import LoginScreen from './src/screens/LoginScreen';
 import OrdersScreen from './src/screens/OrdersScreen';
 import ProductsScreen from './src/screens/ProductsScreen';
+import CreateOrderModal from './src/components/CreateOrderModal';
 import { registerPushToken } from './src/services/api';
 
 Notifications.setNotificationHandler({
@@ -23,6 +24,7 @@ export default function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isReady, setIsReady] = useState(false);
   const [activeTab, setActiveTab] = useState('orders');
+  const [isOrderModalVisible, setIsOrderModalVisible] = useState(false);
 
   useEffect(() => {
     checkAuth();
@@ -118,7 +120,7 @@ export default function App() {
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
           <TouchableOpacity 
             style={[styles.logoutBtn, { backgroundColor: '#fbbf24', borderColor: '#d97706', paddingHorizontal: 12, flexDirection: 'row', gap: 4, alignItems: 'center' }]} 
-            onPress={() => Linking.openURL('https://g.sbaspava.com/siparis')}
+            onPress={() => setIsOrderModalVisible(true)}
           >
             <Plus size={16} color="#0c0a09" />
             <Text style={{ color: '#0c0a09', fontSize: 12, fontWeight: 'bold' }}>Sipariş</Text>
@@ -151,6 +153,11 @@ export default function App() {
       <View style={styles.content}>
         {activeTab === 'orders' ? <OrdersScreen /> : <ProductsScreen />}
       </View>
+
+      <CreateOrderModal 
+        visible={isOrderModalVisible} 
+        onClose={() => setIsOrderModalVisible(false)} 
+      />
     </SafeAreaView>
   );
 }

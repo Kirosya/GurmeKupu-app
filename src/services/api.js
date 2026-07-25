@@ -41,3 +41,13 @@ export const registerPushToken = async (token) => {
   if (!res.ok) throw new Error('Token kaydedilemedi');
   return res.json();
 };
+
+export const createOrder = async (orderData) => {
+  const res = await fetch(`${API_URL}/orders`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(orderData),
+  });
+  if (!res.ok) throw new Error('Sipariş oluşturulamadı');
+  return res.json();
+};
