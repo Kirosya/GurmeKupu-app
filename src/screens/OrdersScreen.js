@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, Text, StyleSheet, FlatList, TouchableOpacity, RefreshControl, ActivityIndicator, Alert } from 'react-native';
+import { View, Text, StyleSheet, FlatList, TouchableOpacity, RefreshControl, ActivityIndicator, Alert, TextInput } from 'react-native';
 import { fetchOrders, updateOrderStatus } from '../services/api';
 import { ShoppingBag, CheckCircle, Clock, MapPin, Phone, User } from 'lucide-react-native';
 import * as Notifications from 'expo-notifications';
@@ -9,6 +9,7 @@ export default function OrdersScreen() {
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [updatingId, setUpdatingId] = useState(null);
+  const [searchQuery, setSearchQuery] = useState('');
 
   const loadData = useCallback(async (isRefresh = false) => {
     if (isRefresh) setRefreshing(true);
@@ -128,14 +129,33 @@ export default function OrdersScreen() {
     );
   }
 
-  const sortedOrders = [...orders].sort((a, b) => {
-    if (a.status === 'PENDING' && b.status !== 'PENDING') return -1;
-    if (a.status !== 'PENDING' && b.status === 'PENDING') return 1;
-    return new Date(b.createdAt) - new Date(a.createdAt);
-  });
+  const sortedOrders = [...orders]
+    .filter(order => {
+      if (!searchQuery) return true;
+      const q = searchQuery.toLowerCase();
+      return (
+        order.id.toLowerCase().includes(q) ||
+        order.customerName.toLowerCase().includes(q) ||
+        order.items.some(item => item.productName.toLowerCase().includes(q))
+      );
+    })
+    .sort((a, b) => {
+      if (a.status === 'PENDING' && b.status !== 'PENDING') return -1;
+      if (a.status !== 'PENDING' && b.status === 'PENDING') return 1;
+      return new Date(b.createdAt) - new Date(a.createdAt);
+    });
 
   return (
     <View style={styles.container}>
+      <View style={styles.searchContainer}>
+        <TextInput
+          style={styles.searchInput}
+          placeholder="Sipariş No, Müşteri veya Ürün Ara..."
+          placeholderTextColor="#78716c"
+          value={searchQuery}
+          onChangeText={setSearchQuery}
+        />
+      </View>
       <FlatList
         data={sortedOrders}
         keyExtractor={item => item.id}
@@ -156,6 +176,8 @@ export default function OrdersScreen() {
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#0c0a09' },
   centered: { flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#0c0a09' },
+  searchContainer: { paddingHorizontal: 16, paddingTop: 16, paddingBottom: 4 },
+  searchInput: { backgroundColor: '#1c1917', color: '#f5f5f4', paddingHorizontal: 16, paddingVertical: 12, borderRadius: 12, borderWidth: 1, borderColor: '#292524', fontSize: 14 },
   listContent: { padding: 16, gap: 16, paddingBottom: 40 },
   card: {
     backgroundColor: '#1c1917',
