@@ -68,7 +68,10 @@ export default function OrdersScreen() {
     return (
       <View style={[styles.card, !isPending && styles.cardDelivered]}>
         <View style={styles.cardHeader}>
-          <Text style={styles.orderId}>#{item.id}</Text>
+          <View>
+            <Text style={styles.orderId}>#{item.id}</Text>
+            <Text style={styles.orderDate}>{new Date(item.createdAt).toLocaleString('tr-TR', { dateStyle: 'short', timeStyle: 'short' })}</Text>
+          </View>
           <View style={[styles.badge, isPending ? styles.badgePending : styles.badgeDelivered]}>
             {isPending ? <Clock size={12} color="#b45309" /> : <CheckCircle size={12} color="#166534" />}
             <Text style={[styles.badgeText, isPending ? styles.badgeTextPending : styles.badgeTextDelivered]}>
@@ -166,6 +169,7 @@ const styles = StyleSheet.create({
   },
   cardHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 },
   orderId: { color: '#fbbf24', fontWeight: '900', fontSize: 16 },
+  orderDate: { color: '#a8a29e', fontSize: 11, marginTop: 2 },
   badge: { flexDirection: 'row', alignItems: 'center', gap: 4, paddingHorizontal: 8, paddingVertical: 4, borderRadius: 8 },
   badgePending: { backgroundColor: '#fef3c7', borderWidth: 1, borderColor: '#fde68a' },
   badgeTextPending: { color: '#b45309', fontSize: 10, fontWeight: '800' },
