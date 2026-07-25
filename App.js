@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity, Platform, Alert, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity, Platform, Alert, ActivityIndicator, Linking } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Notifications from 'expo-notifications';
 import * as Device from 'expo-device';
-import { ShoppingBag, Utensils, LogOut } from 'lucide-react-native';
+import { ShoppingBag, Utensils, LogOut, Plus } from 'lucide-react-native';
 
 import LoginScreen from './src/screens/LoginScreen';
 import OrdersScreen from './src/screens/OrdersScreen';
@@ -110,18 +110,24 @@ export default function App() {
       
       <View style={styles.header}>
         <View style={styles.headerLeft}>
-          <View style={styles.logoBox}>
-            <Utensils size={18} color="#0c0a09" />
-          </View>
           <View>
             <Text style={styles.headerTitle}>GURME KÜPÜ</Text>
-            <Text style={styles.headerSubtitle}>Native Yönetici Paneli</Text>
           </View>
         </View>
         
-        <TouchableOpacity style={styles.logoutBtn} onPress={handleLogout}>
-          <LogOut size={16} color="#ef4444" />
-        </TouchableOpacity>
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
+          <TouchableOpacity 
+            style={[styles.logoutBtn, { backgroundColor: '#fbbf24', borderColor: '#d97706', paddingHorizontal: 12, flexDirection: 'row', gap: 4, alignItems: 'center' }]} 
+            onPress={() => Linking.openURL('https://g.sbaspava.com/siparis')}
+          >
+            <Plus size={16} color="#0c0a09" />
+            <Text style={{ color: '#0c0a09', fontSize: 12, fontWeight: 'bold' }}>Sipariş</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.logoutBtn} onPress={handleLogout}>
+            <LogOut size={16} color="#ef4444" />
+          </TouchableOpacity>
+        </View>
       </View>
 
       <View style={styles.tabBar}>
