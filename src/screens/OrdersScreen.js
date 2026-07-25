@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity, RefreshControl, ActivityIndicator, Alert } from 'react-native';
 import { fetchOrders, updateOrderStatus } from '../services/api';
-import { ShoppingBag, CheckCircle, Clock, MapPin, Phone, User,  } from 'lucide-react-native';
+import { ShoppingBag, CheckCircle, Clock, MapPin, Phone, User } from 'lucide-react-native';
+import * as Notifications from 'expo-notifications';
 
 export default function OrdersScreen() {
   const [orders, setOrders] = useState([]);
@@ -26,8 +27,18 @@ export default function OrdersScreen() {
 
   useEffect(() => {
     loadData();
-    const interval = setInterval(() => loadData(false), 15000);
-    return () => clearInterval(interval);
+    // Fallback olarak 1 dakikada bir yenile (arka planda çalışırken vs.)
+    const interval = setInterval(() => loadData(false), 60000);
+    
+    // Push bildirimi geldiğinde anında yenile!
+    const notificationListener = Notifications.addNotificationReceivedListener(notification => {
+      loadData(false);
+    });
+
+    return () => {
+      clearInterval(interval);
+      Notifications.removeNotificationSubscription(notificationListener);
+    };
   }, [loadData]);
 
   const handleMarkDelivered = async (orderId) => {
