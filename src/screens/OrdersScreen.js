@@ -113,7 +113,7 @@ export default function OrdersScreen() {
               {updatingId === item.id ? (
                 <ActivityIndicator color="#0c0a09" size="small" />
               ) : (
-                <Text style={styles.actionBtnText}>Teslim Edildi Yap</Text>
+                <Text style={styles.actionBtnText}>Teslim Edildi İşaretle</Text>
               )}
             </TouchableOpacity>
           )}

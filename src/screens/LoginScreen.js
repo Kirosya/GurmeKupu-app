@@ -46,7 +46,7 @@ export default function LoginScreen({ onLogin }) {
               setPassword(txt);
               setError('');
             }}
-            placeholder="Şifre (varsayılan: gurme123)"
+            placeholder="Şifre"
             placeholderTextColor="#78716c"
             secureTextEntry
           />
