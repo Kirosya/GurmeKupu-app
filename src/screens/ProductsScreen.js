@@ -48,7 +48,7 @@ export default function ProductsScreen() {
     }
   };
 
-  const renderItem = ({ item }) => (
+  const renderItem = useCallback(({ item }) => (
     <View style={styles.card}>
       <View style={styles.headerRow}>
         <View style={styles.infoCol}>
@@ -90,7 +90,7 @@ export default function ProductsScreen() {
         />
       </View>
     </View>
-  );
+  ), [products]);
 
   if (loading && !refreshing) {
     return (
@@ -107,6 +107,10 @@ export default function ProductsScreen() {
         keyExtractor={item => item.id}
         renderItem={renderItem}
         contentContainerStyle={styles.listContent}
+        initialNumToRender={10}
+        maxToRenderPerBatch={10}
+        windowSize={5}
+        removeClippedSubviews={true}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={() => loadData(true)} tintColor="#fbbf24" />}
         ListEmptyComponent={
           <View style={styles.emptyBox}>

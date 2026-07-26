@@ -63,7 +63,7 @@ export default function OrdersScreen() {
     ]);
   };
 
-  const renderItem = ({ item }) => {
+  const renderItem = useCallback(({ item }) => {
     const isPending = item.status === 'PENDING';
     const totalAmount = item.items.reduce((sum, p) => sum + (p.itemTotalPrice || 0), 0);
 
@@ -120,7 +120,7 @@ export default function OrdersScreen() {
         </View>
       </View>
     );
-  };
+  }, [updatingId]);
 
   if (loading && !refreshing && orders.length === 0) {
     return (
@@ -169,6 +169,10 @@ export default function OrdersScreen() {
         keyExtractor={item => item.id}
         renderItem={renderItem}
         contentContainerStyle={styles.listContent}
+        initialNumToRender={10}
+        maxToRenderPerBatch={10}
+        windowSize={5}
+        removeClippedSubviews={true}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={() => loadData(true)} tintColor="#fbbf24" />}
         ListEmptyComponent={
           <View style={styles.emptyBox}>
